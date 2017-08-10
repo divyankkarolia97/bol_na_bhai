@@ -126,6 +126,10 @@ app.get('/:username',function(req,res){
     })
 })
 
+app.post('/logout',function(req,res){
+    req.logout();
+    res.redirect('/login');
+})
 
 app.listen(1234,function(){
     console.log('server started listening on http://localhost:1234');
