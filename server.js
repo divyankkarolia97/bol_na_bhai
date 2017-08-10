@@ -54,10 +54,33 @@ app.use(passport.session());
 
 
 //path handlers
+
+app.use('/userImages',express.static(__dirname+'/userImages'));
+
+///////////user profile
 app.get('/',function(req,res){
-    res.render('profile');
+    if(req.user == null){
+        res.redirect('/login');
+    }
+    else{
+        res.render('adminProfile')
+    }
+
 })
 
+//////////user confessions
+app.get('/confess:username',function(req,res){
+    if(req.user==null){
+        res.redirect('/login');
+    }
+    else{
+        res.render('confession',{user:req.params.username})
+    }
+
+
+})
+
+//////////handling login requests
 app.get('/login',function(req,res){
     res.render('login');
 })
@@ -65,7 +88,7 @@ app.get('/login',function(req,res){
 app.post('/login',passport.authenticate('local',{successRedirect:'/',failureRedirect:'/login'}))
 
 
-
+///////////handling new user requests
 app.get('/signup',function(req,res){
     res.render('signup');
 })
@@ -81,7 +104,7 @@ app.post('/signup',upload.single('avatar'),function(req,res){
 
         }
         else{
-            res.redirect('/');
+            res.redirect('/login');
         }
     })
 
@@ -89,9 +112,18 @@ app.post('/signup',upload.single('avatar'),function(req,res){
 })
 
 
-app.get('/confess:username',function(req,res){
+app.get('/:username',function(req,res){
     console.log(req.params);
-    res.render('profile');
+    database.users.findAll({where:{username:req.params.username}}).then(function(user){
+        console.log(user);
+        if(user!=0){
+
+            res.render('profile',{name:user[0].dataValues.name,username:user[0].dataValues.username,path:user[0].dataValues.profile_image});
+        }
+        else{
+            res.send('<h1>no user found</h1>');
+        }
+    })
 })
 
 
