@@ -131,11 +131,8 @@ app.get('/signup',function(req,res){
     res.render('signup');
 })
 app.post('/signup',upload.single('avatar'),function(req,res){
-    console.log(req.file);
-    console.log(req.body);
-//
+
     database.users.findOrCreate({where:{username:req.body.username},defaults:{name:req.body.name,password:req.body.password,profile_image:req.file.path}}).spread(function(user,created){
-        console.log(user);
         console.log(created);
         if(created===false){
             res.render('signup');
@@ -151,7 +148,6 @@ app.post('/signup',upload.single('avatar'),function(req,res){
 
 
 app.get('/:username',function(req,res){
-    console.log(req.params);
     database.users.findAll({where:{username:req.params.username}}).then(function(user){
         console.log(user);
         if(user!=0){
