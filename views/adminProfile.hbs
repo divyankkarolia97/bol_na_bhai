@@ -5,10 +5,27 @@
     <title>Title</title>
 </head>
 <body>
-    Admin Spotted
+
+hello,<h1>{{name}}</h1> <h3>({{username}})</h3>
+
+    <img src="{{path}}" style="height: 300px">
 
 
-    <form action="/logout" method="post">
+    {{#each confessionsdata}}
+
+
+        <h2>{{dataValues.confession}}</h2>
+
+        {{#if dataValues.flag}}
+            &nbsp;&nbsp;&nbsp;&nbsp;-<span>Anonymous</span>
+        {{else}}
+            &nbsp;&nbsp;&nbsp;&nbsp;-<span>{{dataValues.confesserUsername}}</span>
+        {{/if}}
+
+    {{/each}}
+
+
+    <form style="position: fixed;top: 0px; right: 0px" action="/logout" method="post">
         <input type="submit" value="Logout">
     </form>
 </body>

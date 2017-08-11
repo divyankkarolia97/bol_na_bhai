@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
+<form action="/confess" method="post">
+    <span>Confess to</span> <span><b>{{user}} ({{username}})</b></span><br><br>
+    <input type="hidden" name="to" value="{{username}}" >
+    <input type="text" name="confession"><br>
+    <input type="checkbox" name="anonymous">make it anonymous ?<br>
+    <input type="submit">
 
+</form>
 </body>
 </html>

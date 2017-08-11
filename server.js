@@ -63,7 +63,23 @@ app.get('/',function(req,res){
         res.redirect('/login');
     }
     else{
-        res.render('adminProfile')
+        //render the profile page
+
+        database.confessions.findAll({where:{username:req.user.username}}).then(function(data){
+            for(ele of data){
+                if(ele.dataValues.anonymous=='t'){
+                    ele.dataValues.flag = true;
+                }
+                else{
+                    ele.dataValues.flag = false;
+                }
+            }
+            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:req.user.profile_image,confessionsdata:data})
+
+        })
+
+
+
     }
 
 })
@@ -74,11 +90,33 @@ app.get('/confess:username',function(req,res){
         res.redirect('/login');
     }
     else{
-        res.render('confession',{user:req.params.username})
+        database.users.findOne({where:{username:req.params.username}}).then(function(user){
+            if(user== null){
+                res.send('no user found '+req.params.username );
+            }
+            else{
+                res.render('confess',{user:user.name,username:user.username})
+            }
+        })
+
+
     }
 
 
 })
+
+app.post('/confess',function(req,res){
+    let flag;
+    if(req.body.anonymous==='on'){
+        flag='t';
+    }else{
+        flag='f';
+    }
+
+    database.confessions.create({username:req.user.username,confession:req.body.confession,confesserUsername:req.body.to,anonymous:flag});
+    res.send('<h1>successfully confessed</h1>');
+})
+
 
 //////////handling login requests
 app.get('/login',function(req,res){
