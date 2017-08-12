@@ -165,6 +165,6 @@ app.post('/logout',function(req,res){
     res.redirect('/login');
 })
 
-app.listen(1234,function(){
-    console.log('server started listening on http://localhost:1234');
+app.listen(process.env.PORT,function(){
+    console.log('server started listening on http://localhost:'+process.env.PORT);
 })
