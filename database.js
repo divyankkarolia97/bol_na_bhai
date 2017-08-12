@@ -1,10 +1,14 @@
+const CONFIG = require('./config');
+
 const Sequelize = require('sequelize');
+
+//to link local sequelize
 // const sequelize = new Sequelize('somedatabase','divyank','dkarolia',{
 //     host:'localhost',
 //     dialect:'mysql'
 // });
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(CONFIG.DATABASE_URL);
 const users= sequelize.define('confessUsers',{
     name: Sequelize.DataTypes.STRING,
     username: Sequelize.DataTypes.STRING,

@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+//loading configs
+const CONFIG = require('./config');
 
 //login configuration
 const bp = require('body-parser');
@@ -164,6 +166,6 @@ app.post('/logout',function(req,res){
     res.redirect('/login');
 })
 
-app.listen(process.env.PORT,function(){
-    console.log('server started listening on http://localhost:'+process.env.PORT);
+app.listen(CONFIG.SERVER_PORT,function(){
+    console.log(`server started listening on http://localhost:${CONFIG.SERVER_PORT}`);
 })
