@@ -112,8 +112,7 @@ app.post('/confess',function(req,res){
     }else{
         flag='f';
     }
-
-    database.confessions.create({username:req.user.username,confession:req.body.confession,confesserUsername:req.body.to,anonymous:flag});
+    database.confessions.create({username:req.body.to,confession:req.body.confession,confesserUsername:req.user.username,anonymous:flag});
     res.send('<h1>successfully confessed</h1>');
 })
 
@@ -134,7 +133,7 @@ app.post('/signup',upload.single('avatar'),function(req,res){
 
     database.users.findOrCreate({where:{username:req.body.username},defaults:{name:req.body.name,password:req.body.password,profile_image:req.file.path}}).spread(function(user,created){
         console.log(created);
-        if(created===false){
+        if(created==false){
             res.render('signup');
 
         }
