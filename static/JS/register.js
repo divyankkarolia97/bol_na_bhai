@@ -100,7 +100,12 @@ $(function(){
 
         }
 
+        $('#username').val($('#username').val().trim());
+        $('#password').val($('#password').val().trim());
 
+        console.log($('#username').val());
+
+        console.log($('#password').val());
 
 
         $('#registrationForm').unbind('submit').submit();
