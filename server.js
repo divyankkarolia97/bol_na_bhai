@@ -66,6 +66,15 @@ app.use('/userImages',express.static(process.env.PWD+'/userImages'));
 
 ///////////user profile
 app.get('/',function(req,res){
+    var logged = (req.user)? true: false;
+
+
+    res.render('homepage',{logged});
+})
+
+
+
+app.get('/user',function(req,res){
     if(req.user == null){
         res.redirect('/login');
     }
@@ -114,7 +123,7 @@ app.get('/login',function(req,res){
     res.render('login');
 })
 
-app.post('/login',passport.authenticate('local',{successRedirect:'/',failureRedirect:'/login'}))
+app.post('/login',passport.authenticate('local',{successRedirect:'/user',failureRedirect:'/login'}))
 
 
 ///////////handling new user requests
