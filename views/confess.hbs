@@ -2,16 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>bolnabhai</title>
+    {{> head}}
 </head>
 <body>
-<form action="/confess" method="post">
-    <span>Confess to</span> <span><b>{{user}} ({{username}})</b></span><br><br>
-    <input type="hidden" name="to" value="{{username}}" >
-    <input type="text" name="confession"><br>
-    <input type="checkbox" name="anonymous">make it anonymous ?<br>
-    <input type="submit">
 
-</form>
+{{> profileHead}}
+
+<div class="container col-lg-6 col-sm-10" style="position: relative;top: 150px;">
+    <form action="/feedback" method="post">
+        <div>Leave a message to <b style="font-size: 40px;">{{user}} ({{username}})</b></div>
+        <br>
+
+        <input type="hidden" name="to" value="{{username}}">
+
+
+        <span>Message</span>
+
+        <div class="input-group">
+            <textarea  rows="10" type="text" class="form-control" name="confession"></textarea>
+        </div>
+        <br>
+
+        <input style="height: 30px;width: 30px" type="checkbox" name="anonymous"> <span>&nbsp; make it anonymous ?</span>
+        <br>
+        <br>
+        <input class="btn btn-block btn-success" type="submit">
+
+
+    </form>
+</div>
 </body>
 </html>

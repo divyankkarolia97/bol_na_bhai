@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bolnabhai AboutUs</title>
+    {{> head}}
+</head>
+<body>
+    {{#if logged}}
+        {{> profileHead}}
+    {{else}}
+        {{> header}}
+    {{/if}}
+
+    <div style="position: relative; top: 100px;" class="container">
+        <div style="font-weight: bolder;font-size: larger">About Us</div>
+        <div style="font-size: 14px;">bolnabhai is a anonymous feedback website.</div>
+        <hr>
+        <span style="font-weight: bolder">developed by:</span>
+
+        <ul style="list-style: none">
+            <li style="font-size: 14px;">divyankkarolia97 <a href="https://github.com/divyankkarolia97">(Git Hub)</a></li>
+            <li style="font-size: 14px;">find the repo at <a href="https://github.com/divyankkarolia97/bol_na_bhai">bolnabhai</a></li>
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>bolnabhai</title>
+    {{> head}}
 </head>
 <body>
+    {{> profileHead}}
 
 hello,<h1>{{name}}</h1> <h3>({{username}})</h3>
 
@@ -25,8 +27,6 @@ hello,<h1>{{name}}</h1> <h3>({{username}})</h3>
     {{/each}}
 
 
-    <form style="position: fixed;top: 0px; right: 0px" action="/logout" method="post">
-        <input type="submit" value="Logout">
-    </form>
+
 </body>
 </html>

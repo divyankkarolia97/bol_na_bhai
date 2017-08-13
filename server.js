@@ -17,7 +17,12 @@ const session = require('express-session');
 const database = require('./database')
 
 //setting the view engine
+
 app.set('view engine','hbs');
+const hbs = require('hbs');
+
+hbs.registerPartials(__dirname+'/views/partials')
+
 
 //setting up multer
 const multer = require('multer');
@@ -56,7 +61,7 @@ app.use(passport.session());
 
 
 //path handlers
-
+app.use('/',express.static(__dirname+'/static'))
 app.use('/userImages',express.static(__dirname+'/userImages'));
 
 ///////////user profile
@@ -87,14 +92,15 @@ app.get('/',function(req,res){
 })
 
 //////////user confessions
-app.get('/confess:username',function(req,res){
+app.get('/feedback:username',function(req,res){
     if(req.user==null){
         res.redirect('/login');
     }
     else{
         database.users.findOne({where:{username:req.params.username}}).then(function(user){
             if(user== null){
-                res.send('no user found '+req.params.username );
+                var logged = (req.user)? true: false;
+                res.render('noUserFound',{logged});
             }
             else{
                 res.render('confess',{user:user.name,username:user.username})
@@ -107,7 +113,7 @@ app.get('/confess:username',function(req,res){
 
 })
 
-app.post('/confess',function(req,res){
+app.post('/feedback',function(req,res){
     let flag;
     if(req.body.anonymous==='on'){
         flag='t';
@@ -115,7 +121,8 @@ app.post('/confess',function(req,res){
         flag='f';
     }
     database.confessions.create({username:req.body.to,confession:req.body.confession,confesserUsername:req.user.username,anonymous:flag});
-    res.send('<h1>successfully confessed</h1>');
+    var logged = (req.user)? true: false;
+    res.render('successFeedback',{logged});
 })
 
 
@@ -144,27 +151,21 @@ app.post('/signup',upload.single('avatar'),function(req,res){
         }
     })
 
-//
-})
-
-
-app.get('/:username',function(req,res){
-    database.users.findAll({where:{username:req.params.username}}).then(function(user){
-        console.log(user);
-        if(user!=0){
-
-            res.render('profile',{name:user[0].dataValues.name,username:user[0].dataValues.username,path:user[0].dataValues.profile_image});
-        }
-        else{
-            res.send('<h1>no user found</h1>');
-        }
-    })
 })
 
 app.post('/logout',function(req,res){
     req.logout();
-    res.redirect('/login');
+    console.log('logging out')
+    res.send('loggedOut');
 })
+
+
+//about us
+app.get('/aboutus',function(req,res){
+    var logged = (req.user)? true: false;
+    res.render('aboutus', {logged});
+})
+
 
 app.listen(CONFIG.SERVER_PORT,function(){
     console.log(`server started listening on http://localhost:${CONFIG.SERVER_PORT}`);
