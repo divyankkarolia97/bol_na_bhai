@@ -169,6 +169,15 @@ app.get('/aboutus',function(req,res){
 })
 
 
+app.post('/deleteMessage',function(req,res){
+    console.log(req.body.feedbackId);
+    database.confessions.destroy({where:{id:req.body.feedbackId}});
+
+    res.send('deleted');
+
+})
+
+
 app.listen(CONFIG.SERVER_PORT,function(){
     console.log(`server started listening on http://localhost:${CONFIG.SERVER_PORT}`);
 })
