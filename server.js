@@ -61,8 +61,8 @@ app.use(passport.session());
 
 
 //path handlers
-app.use('/',express.static(__dirname+'/static'))
-app.use('/userImages',express.static(__dirname+'/userImages'));
+app.use('/',express.static(process.env.PWD+'/static'))
+app.use('/userImages',express.static(process.env.PWD+'/userImages'));
 
 ///////////user profile
 app.get('/',function(req,res){
