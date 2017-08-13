@@ -17,7 +17,7 @@
       <span class="input-group-btn">
         <button class="btn btn-secondary" type="button">Email &nbsp;&nbsp;&nbsp;</button>
       </span>
-            <input autofocus type="email" tabindex="1" class="form-control" name="email">
+            <input autofocus type="email" id="email" tabindex="1" class="form-control" name="email">
         </div>
 
         <br>
@@ -81,6 +81,18 @@
             <b id="alert">{{message}}</b>
 
         </div>
+
+        <div id="tipDiv" style="visibility: hidden" class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+
+            </button>
+
+            <b id="tip">{{message}}</b>
+
+        </div>
+
+
     </form>
 
     </div>
