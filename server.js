@@ -72,8 +72,8 @@ app.get('/',function(req,res){
     else{
         //render the profile page
 
-        database.confessions.findAll({where:{username:req.user.username}}).then(function(data){
-            for(ele of data){
+        database.confessions.findAndCountAll({where:{username:req.user.username}}).then(function(data){
+            for(ele of data.rows){
                 if(ele.dataValues.anonymous=='t'){
                     ele.dataValues.flag = true;
                 }
@@ -81,7 +81,9 @@ app.get('/',function(req,res){
                     ele.dataValues.flag = false;
                 }
             }
-            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:req.user.profile_image,confessionsdata:data})
+
+
+            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:req.user.profile_image,confessionsdata:data.rows,totalMessages:data.count});
 
         })
 
