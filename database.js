@@ -21,7 +21,7 @@ const users= sequelize.define('usersdata',{
 
 const feedbacks = sequelize.define('feedbacks',{
     username: Sequelize.DataTypes.STRING,
-    confession: Sequelize.DataTypes.TEXT,
+    feedback: Sequelize.DataTypes.TEXT,
 
 },{
     timestamps:false

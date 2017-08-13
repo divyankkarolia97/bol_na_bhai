@@ -5,7 +5,7 @@
     <title>bolnabhai</title>
     {{> head}}
 </head>
-<body>
+<body style="font-family: 'Oswald', sans-serif;">
     {{> profileHead}}
     <div class="jumbotron" style="padding-top: 100px;">
         <div class="container">
@@ -31,15 +31,15 @@
         </div>
     </div>
     <div class="container">
-        <br><h1>Your Messages:</h1>
-        {{#each confessionsdata}}
+        <h1 style="font-family: 'Oswald', sans-serif;">Your Messages:</h1><hr>
+        {{#each feedbacks}}
         <div class="alert alert-dark" id="feedback{{dataValues.id}}">
         <div class="row">
             <div class="col-11">
-        <p style="margin-bottom: 0px" ">{{dataValues.confession}}</p>
+        <p style="font-family: 'Oswald', sans-serif; margin-bottom: 0px" ">{{dataValues.feedback}}</p>
             </div>
                 <div class="col-1">
-            <span class="btn btn-sm btn-outline-danger" style="padding: 0px 2px;" onclick="deleteMessage(event)"><i  feedbackId="{{dataValues.id}}"  class="fa fa-times" aria-hidden="true"></i></span>
+            <span class="btn btn-sm btn-outline-danger" style="padding: 2px 4px;" onclick="deleteMessage(event)"><i  feedbackId="{{dataValues.id}}"  class="fa fa-times" aria-hidden="true"></i></span>
         </div>
         </div>
         </div>

@@ -5,7 +5,7 @@
     <title>bolnabhai</title>
     {{> head}}
 </head>
-<body>
+<body style="font-family: 'Oswald', sans-serif;">
 
 {{#if logged}}
     {{> profileHead}}
@@ -16,13 +16,21 @@
 
 <div class="container col-lg-6 col-sm-10" style="position: relative;top: 150px;">
     <form action="/feedback" method="post">
+        <div class="row">
+        <div class="col-5"></div>
+        <div class="text-center col-2">
+
+        <img src="{{path}}" class="img-fluid rounded img-thumbnail">
+        </div>
+        <div class="col-5"></div>
+        </div>
         <div>Leave a message to <b style="font-size: 40px;">{{user}} ({{username}})</b></div>
         <br>
 
         <input type="hidden" name="to" value="{{username}}">
         <span>Message</span>
         <div class="input-group">
-            <textarea  rows="10" type="text" class="form-control" name="confession"></textarea>
+            <textarea  rows="10" type="text" class="form-control" name="feedback"></textarea>
         </div>
         <br>
         <br>

@@ -71,19 +71,11 @@ app.get('/',function(req,res){
     }
     else{
         //render the profile page
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 
         database.feedbacks.findAndCountAll({where:{username:req.user.username}}).then(function(data){
-            for(ele of data.rows){
-                if(ele.dataValues.anonymous=='t'){
-                    ele.dataValues.flag = true;
-                }
-                else{
-                    ele.dataValues.flag = false;
-                }
-            }
 
-
-            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:req.user.profile_image,confessionsdata:data.rows,totalMessages:data.count});
+            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:req.user.profile_image,feedbacks:data.rows,totalMessages:data.count});
 
         })
 
@@ -93,15 +85,16 @@ app.get('/',function(req,res){
 
 })
 
-//////////user confessions
+//////////user feedback
 app.get('/feedback:username',function(req,res){
         database.users.findOne({where:{username:req.params.username}}).then(function(user){
+            var logged = (req.user)? true: false;
+
             if(user== null){
-                var logged = (req.user)? true: false;
                 res.render('noUserFound',{logged});
             }
             else{
-                res.render('confess',{user:user.name,username:user.username})
+                res.render('feedback',{user:user.name,username:user.username,logged,path:user.profile_image})
             }
         })
 
@@ -110,7 +103,7 @@ app.get('/feedback:username',function(req,res){
 
 app.post('/feedback',function(req,res){
 
-    database.feedbacks.create({username:req.body.to,confession:req.body.confession});
+    database.feedbacks.create({username:req.body.to,feedback:req.body.feedback});
     var logged = (req.user)? true: false;
     res.render('successFeedback',{logged});
 })
@@ -125,15 +118,15 @@ app.post('/login',passport.authenticate('local',{successRedirect:'/',failureRedi
 
 
 ///////////handling new user requests
-app.get('/signup',function(req,res){
-    res.render('signup');
+app.get('/register',function(req,res){
+    res.render('register');
 })
-app.post('/signup',upload.single('avatar'),function(req,res){
+app.post('/register',upload.single('avatar'),function(req,res){
     console.log(req.body);
     database.users.findOrCreate({where:{username:req.body.username},defaults:{email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.path}}).spread(function(user,created){
         console.log(created);
         if(created==false){
-            res.render('signup',{message:'username already exists'});
+            res.render('register',{message:'username already exists'});
 
         }
         else{
