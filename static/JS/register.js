@@ -12,6 +12,15 @@ $(function(){
         event.preventDefault();
 
 
+        if($('#name').val() == $('#username').val()){
+
+            $('#alertDiv').css("visibility","");
+
+            $('#alert').html('name and username should be different')
+            return;
+        }
+
+
         if($('#avatar').val() == ""){
 
             $('#alertDiv').css("visibility","");
@@ -35,6 +44,8 @@ $(function(){
             return;
 
         }
+
+
 
         $('#registrationForm').unbind('submit').submit();
 
