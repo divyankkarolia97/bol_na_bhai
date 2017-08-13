@@ -72,7 +72,7 @@ app.get('/',function(req,res){
     else{
         //render the profile page
 
-        database.confessions.findAndCountAll({where:{username:req.user.username}}).then(function(data){
+        database.feedbacks.findAndCountAll({where:{username:req.user.username}}).then(function(data){
             for(ele of data.rows){
                 if(ele.dataValues.anonymous=='t'){
                     ele.dataValues.flag = true;
@@ -95,10 +95,6 @@ app.get('/',function(req,res){
 
 //////////user confessions
 app.get('/feedback:username',function(req,res){
-    if(req.user==null){
-        res.redirect('/login');
-    }
-    else{
         database.users.findOne({where:{username:req.params.username}}).then(function(user){
             if(user== null){
                 var logged = (req.user)? true: false;
@@ -110,19 +106,11 @@ app.get('/feedback:username',function(req,res){
         })
 
 
-    }
-
-
 })
 
 app.post('/feedback',function(req,res){
-    let flag;
-    if(req.body.anonymous==='on'){
-        flag='t';
-    }else{
-        flag='f';
-    }
-    database.confessions.create({username:req.body.to,confession:req.body.confession,confesserUsername:req.user.username,anonymous:flag});
+
+    database.feedbacks.create({username:req.body.to,confession:req.body.confession});
     var logged = (req.user)? true: false;
     res.render('successFeedback',{logged});
 })
@@ -141,11 +129,11 @@ app.get('/signup',function(req,res){
     res.render('signup');
 })
 app.post('/signup',upload.single('avatar'),function(req,res){
-
-    database.users.findOrCreate({where:{username:req.body.username},defaults:{name:req.body.name,password:req.body.password,profile_image:req.file.path}}).spread(function(user,created){
+    console.log(req.body);
+    database.users.findOrCreate({where:{username:req.body.username},defaults:{email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.path}}).spread(function(user,created){
         console.log(created);
         if(created==false){
-            res.render('signup');
+            res.render('signup',{message:'username already exists'});
 
         }
         else{
@@ -171,8 +159,7 @@ app.get('/aboutus',function(req,res){
 
 app.post('/deleteMessage',function(req,res){
     console.log(req.body.feedbackId);
-    database.confessions.destroy({where:{id:req.body.feedbackId}});
-
+    database.feedbacks.destroy({where:{id:req.body.feedbackId}});
     res.send('deleted');
 
 })

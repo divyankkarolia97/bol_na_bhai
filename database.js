@@ -9,7 +9,8 @@ const Sequelize = require('sequelize');
 // });
 
 const sequelize = new Sequelize(CONFIG.DATABASE_URL);
-const users= sequelize.define('confessUsers',{
+const users= sequelize.define('usersdata',{
+    email: Sequelize.DataTypes.STRING,
     name: Sequelize.DataTypes.STRING,
     username: Sequelize.DataTypes.STRING,
     password: Sequelize.DataTypes.STRING,
@@ -18,11 +19,10 @@ const users= sequelize.define('confessUsers',{
     timestamps:false
 })
 
-const confessions = sequelize.define('confessions',{
+const feedbacks = sequelize.define('feedbacks',{
     username: Sequelize.DataTypes.STRING,
     confession: Sequelize.DataTypes.STRING,
-    confesserUsername: Sequelize.DataTypes.STRING,
-    anonymous: Sequelize.DataTypes.STRING
+
 },{
     timestamps:false
 })
@@ -35,5 +35,5 @@ sequelize.sync().then(function(){
 
 
 module.exports ={
-    users,confessions
+    users,feedbacks
 }

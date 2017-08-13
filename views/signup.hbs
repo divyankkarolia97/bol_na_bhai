@@ -4,20 +4,37 @@
     <meta charset="UTF-8">
     <title>bolnabhai - Register</title>
     {{>head}}
+    <script src="/JS/register.js"></script>
+
 </head>
 <body>
     {{>header}}
-    <div class="container col-lg-4 col-sm-10" style="position: relative;top: 150px;">
+    <div class="container col-lg-4 col-sm-10" style="position: relative;top: 220px;">
 
-    <form action="/signup" method="post" enctype="multipart/form-data">
+    <form id="registrationForm" action="/signup" method="post" enctype="multipart/form-data">
 
-    <!--<input type="text" name="name"><br>-->
+        <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button">Email &nbsp;&nbsp;&nbsp;</button>
+      </span>
+            <input autofocus type="email" tabindex="1" class="form-control" name="email">
+        </div>
+
+        <br>
+
+
+
+
+
+
+
+        <!--<input type="text" name="name"><br>-->
 
         <div class="input-group">
       <span class="input-group-btn">
         <button class="btn btn-secondary" type="button">Name &nbsp;&nbsp;&nbsp;</button>
       </span>
-            <input autofocus type="text" tabindex="1" class="form-control" name="name">
+            <input type="text" tabindex="2" class="form-control" name="name">
         </div>
 
         <br>
@@ -30,7 +47,7 @@
       <span class="input-group-btn">
         <button class="btn btn-secondary"  type="button">Username</button>
       </span>
-            <input type="text" tabindex="2" class="form-control" name="username">
+            <input type="text" tabindex="3" class="form-control" name="username">
         </div>
 
         <br>
@@ -43,7 +60,16 @@
       <span class="input-group-btn">
         <button class="btn btn-secondary" type="button">Password</button>
       </span>
-            <input type="password" tabindex="3" class="form-control" name="password">
+            <input type="password" id="password" tabindex="4" class="form-control" name="password">
+        </div>
+
+        <br>
+
+        <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="button">Password Confirmation</button>
+      </span>
+            <input type="password" tabindex="5" id="passwordConfirmation" class="form-control">
         </div>
 
         <br>
@@ -57,17 +83,31 @@
       <span class="input-group-btn">
         <button class="btn btn-secondary" type="button">Profile Pic</button>
       </span>
-            <input type="file" tabindex="4" class="form-control" name="avatar">
+            <input type="file" tabindex="6" class="form-control" id="avatar" name="avatar">
         </div>
 
         <br>
 
 
-        <input class="btn btn-block btn-info" tabindex="5" type="submit">
+        <input class="btn btn-block btn-info" tabindex="7" type="submit">
+        <br>
 
 
+        <div id="alertDiv" style="visibility: hidden" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+
+            </button>
+
+            <b id="alert">{{message}}</b>
+
+        </div>
     </form>
 
     </div>
+
+
+
+
 </body>
 </html>
