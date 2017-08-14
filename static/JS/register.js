@@ -1,13 +1,5 @@
 $(function(){
 
-
-
-    if($('#alert').html()=='username already exists'){
-        $('#alertDiv').css('visibility',"");
-    }
-
-
-
     $('#registrationForm').submit(function(event){
         event.preventDefault();
 
@@ -33,30 +25,19 @@ $(function(){
 
 
         }
-
-
-
-        if($('#avatar').val() == ""){
-
-            $('#alertDiv').css("visibility","");
-
-            $('#alert').html('please choose a profile image')
-            return;
-        }
-
-
-
-
-        var arr = $('#avatar').val().split('.');
-        if( arr[arr.length-1] != 'jpg' && arr[arr.length-1] != 'png' && arr[arr.length-1] !='jpeg' ){
-
-            $('#alertDiv').css('visibility',"");
-            $('#alert').html('upload a valid image')
-            return;
-
-        }
-
-
+        //
+        // if($('#avatar').val() !== "") {
+        //
+        //     var arr = $('#avatar').val().split('.');
+        //     if (arr[arr.length - 1] != 'jpg' && arr[arr.length - 1] != 'png' && arr[arr.length - 1] != 'jpeg') {
+        //
+        //         $('#alertDiv').css('visibility', "");
+        //         $('#alert').html('upload a valid image')
+        //         return;
+        //
+        //     }
+        //
+        // }
 
         if($('#name').val() <1){
 
@@ -103,12 +84,20 @@ $(function(){
         $('#username').val($('#username').val().trim());
         $('#password').val($('#password').val().trim());
 
-        console.log($('#username').val());
-
-        console.log($('#password').val());
 
 
-        $('#registrationForm').unbind('submit').submit();
+        $.post('/usernameAvailable',{username:$('#username').val()},function(data){
+            if(data === "false"){
+                $('#alertDiv').css('visibility',"");
+                $('#alert').html('user already exists');
+            }
+            else{
+                $('#registrationForm').unbind('submit').submit();
+            }
+
+        })
+        //
+        // $('#registrationForm').unbind('submit').submit();
 
 
     })

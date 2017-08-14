@@ -1,3 +1,17 @@
+//pings my heroku app
+
+
+const http = require('http');
+setInterval(function(){
+    http.get('http://bolnabhai.herokuapp.com');
+},300000);
+
+
+const multiparty = require('multiparty');
+const util = require('util');
+
+
+
 const express = require('express');
 const app = express();
 
@@ -11,7 +25,9 @@ const passport = require('./localStrategy');
 
 const session = require('express-session');
 
-
+//configuring nodemailer
+const nodemailer = require('nodemailer');
+const xoauth2 = require('xoauth2');
 
 //exported database;
 const database = require('./database')
@@ -41,8 +57,6 @@ const storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 //passport configuration
-
-
 
 app.use(cp('TheSecret'));
 app.use(session({
@@ -123,6 +137,23 @@ app.get('/login',function(req,res){
     res.render('login');
 })
 
+app.post('/verifyCreds',function(req,res){
+
+    database.users.findOne({where:{username:req.body.username}}).then(function(data){
+
+        if(data==null){
+            res.send('username');
+        }
+        else if(data.dataValues.password !== req.body.password){
+            res.send('password');
+        }else{
+            res.send('success');
+        }
+    })
+
+
+})
+
 app.post('/login',passport.authenticate('local',{successRedirect:'/user',failureRedirect:'/login'}))
 
 
@@ -130,20 +161,28 @@ app.post('/login',passport.authenticate('local',{successRedirect:'/user',failure
 app.get('/register',function(req,res){
     res.render('register');
 })
-app.post('/register',upload.single('avatar'),function(req,res){
-    console.log(req.body);
-    database.users.findOrCreate({where:{username:req.body.username},defaults:{email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.path}}).spread(function(user,created){
-        console.log(created);
-        if(created==false){
-            res.render('register',{message:'username already exists'});
 
-        }
-        else{
-            res.redirect('/login');
+app.post('/usernameAvailable',function(req,res){
+    database.users.findOne({where:{username:req.body.username}}).then(function(user){
+        if(user==null){
+            res.send('true');
+        }else{
+            res.send('false');
         }
     })
-
 })
+
+app.post('/register',upload.single('avatar'),function(req,res,next){
+    if(req.file == undefined){
+            req.file={};
+            req.file.path = `userImages/default-${Math.round(Math.random()*3)+1}.png`;
+        }
+    database.users.create({username:req.body.username,email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.path}).then(function(){
+        next();
+    })
+
+},passport.authenticate('local',{successRedirect:'/user',failureRedirect:'/login'}));
+
 
 app.post('/logout',function(req,res){
     req.logout();
@@ -160,12 +199,54 @@ app.get('/aboutus',function(req,res){
 
 
 app.post('/deleteMessage',function(req,res){
-    console.log(req.body.feedbackId);
     database.feedbacks.destroy({where:{id:req.body.feedbackId}});
     res.send('deleted');
 
 })
 
+app.get('/forgotPassword',function(req,res){
+    res.render('forgotPassword');
+})
+app.post('/forgotPassword',function(req,res){
+    res.render('emailSent');
+})
+
+app.post('/verifyEmail',function(req,res){
+
+    database.users.findOne({where:{email:req.body.email}}).then(function(data){
+        console.log()
+        if(data == null){
+            res.send('false');
+        }else{
+            let transporter = nodemailer.createTransport({
+                service:"Gmail",
+                auth:{
+                    user:'bolnabhaiapp@gmail.com',
+                    pass:'Divyank@97'
+                }
+            })
+            let mailOptions = {
+                from: 'bolnabhaiapp@gmail.com', // sender address
+                to: `${data.dataValues.email}`, // list of receivers
+                subject: 'RECOVERY MAIL bonabhai.herokuapp.com', // Subject line
+                text: `Here are  your credentials : \n\n\n\n\t USERNAME: ${data.dataValues.username} \n\t PASSWORD: ${data.dataValues.password} `, // plain text body
+
+            };
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message %s sent: %s', info.messageId, info.response);
+            });
+
+
+
+            res.send('emailSent');
+
+        }
+    })
+
+})
 
 app.listen(CONFIG.SERVER_PORT,function(){
     console.log(`server started listening on http://localhost:${CONFIG.SERVER_PORT}`);

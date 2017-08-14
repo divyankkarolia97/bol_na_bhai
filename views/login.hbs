@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>bolnabhai - Log In</title>
+
     {{> head}}
+
+
+    <script src="/JS/login.js"></script>
+
 </head>
 <body style="font-family: 'Oswald', sans-serif;">
 
@@ -13,13 +18,13 @@
 <div class="container col-lg-4 col-sm-10" style="position: relative;top: 230px;">
 
 
-    <form action="/login" method="post">
+    <form id="loginForm"  action="/login" method="post">
 
         <div class="input-group">
       <span class="input-group-btn">
         <button class="btn btn-secondary" type="button">Username</button>
       </span>
-            <input autofocus type="text" tabindex="1" class="form-control" name="username">
+            <input id="username" autofocus type="text" tabindex="1" class="form-control" name="username">
         </div>
 
         <br>
@@ -28,20 +33,41 @@
       <span class="input-group-btn">
         <button class="btn btn-secondary" type="button">Password</button>
       </span>
-            <input type="password" tabindex="2" class="form-control" name="password">
+            <input id="password" type="password" tabindex="2" class="form-control" name="password">
         </div>
 
 
         <br>
 
-        <input class="btn btn-block btn-success" tabindex="3" type="submit" value="Log In">
+        <input id="submitForm" class="btn btn-block btn-success" tabindex="3" type="submit" value="Log In">
 
         <br>
 
     </form>
-
-
     <a href="/register">New User? Sign Up</a>
+    <br>
+    <a href="/forgotPassword">I forgot my Password !!</a>
+
+    <div id="alertDiv" style="visibility: hidden" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+
+        </button>
+
+        <b id="alert"></b>
+
+    </div>
+    <div id="tipDiv" style="visibility: hidden" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+
+        </button>
+
+        <b id="tip"></b>
+
+    </div>
+
+
 </div>
 </body>
 </html>
