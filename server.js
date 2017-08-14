@@ -231,7 +231,9 @@ app.post('/verifyEmail',function(req,res){
                     return console.log(error);
                 }
                 console.log('Message %s sent: %s', info.messageId, info.response);
+
             });
+            res.render('emailSent');
         }
     })
 
