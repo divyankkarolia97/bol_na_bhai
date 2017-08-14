@@ -111,7 +111,7 @@ app.get('/feedback:username',function(req,res){
                 res.render('noUserFound',{logged});
             }
             else{
-                res.render('feedback',{user:user.name,username:user.username,logged,path:'/userImages/default-'+req.user.profile_image+'.png'})
+                res.render('feedback',{user:user.name,username:user.username,logged,path:'/userImages/default-'+user.profile_image+'.png'})
             }
         })
 
