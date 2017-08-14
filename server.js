@@ -7,11 +7,6 @@ setInterval(function(){
 },300000);
 
 
-const multiparty = require('multiparty');
-const util = require('util');
-
-
-
 const express = require('express');
 const app = express();
 
@@ -27,7 +22,6 @@ const session = require('express-session');
 
 //configuring nodemailer
 const nodemailer = require('nodemailer');
-const xoauth2 = require('xoauth2');
 
 //exported database;
 const database = require('./database')
@@ -97,8 +91,8 @@ app.get('/user',function(req,res){
         res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
 
         database.feedbacks.findAndCountAll({where:{username:req.user.username}}).then(function(data){
-
-            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:req.user.profile_image,feedbacks:data.rows,totalMessages:data.count});
+        //profile change
+            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:'/userImages/default-'+req.user.profile_image+'.png',feedbacks:data.rows,totalMessages:data.count});
 
         })
 
@@ -117,7 +111,7 @@ app.get('/feedback:username',function(req,res){
                 res.render('noUserFound',{logged});
             }
             else{
-                res.render('feedback',{user:user.name,username:user.username,logged,path:user.profile_image})
+                res.render('feedback',{user:user.name,username:user.username,logged,path:'/userImages/default-'+req.user.profile_image+'.png'})
             }
         })
 
@@ -175,7 +169,7 @@ app.post('/usernameAvailable',function(req,res){
 app.post('/register',upload.single('avatar'),function(req,res,next){
     if(req.file == undefined){
             req.file={};
-            req.file.path = `userImages/default-${Math.round(Math.random()*3)+1}.png`;
+            req.file.path = (Math.round(Math.random()*3)+1);
         }
     database.users.create({username:req.body.username,email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.path}).then(function(){
         next();
@@ -221,12 +215,12 @@ app.post('/verifyEmail',function(req,res){
             let transporter = nodemailer.createTransport({
                 service:"Gmail",
                 auth:{
-                    user:'bolnabhaiapp@gmail.com',
-                    pass:'Divyank@97'
+                    user:CONFIG.EMAIL_CRED.USERNAME,
+                    pass:CONFIG.EMAIL_CRED.PASSWORD
                 }
             })
             let mailOptions = {
-                from: 'bolnabhaiapp@gmail.com', // sender address
+                from: CONFIG.EMAIL_CRED.USERNAME, // sender address
                 to: `${data.dataValues.email}`, // list of receivers
                 subject: 'RECOVERY MAIL bonabhai.herokuapp.com', // Subject line
                 text: `Here are  your credentials : \n\n\n\n\t USERNAME: ${data.dataValues.username} \n\t PASSWORD: ${data.dataValues.password} `, // plain text body
@@ -238,11 +232,6 @@ app.post('/verifyEmail',function(req,res){
                 }
                 console.log('Message %s sent: %s', info.messageId, info.response);
             });
-
-
-
-            res.send('emailSent');
-
         }
     })
 

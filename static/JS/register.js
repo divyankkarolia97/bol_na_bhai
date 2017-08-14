@@ -84,6 +84,8 @@ $(function(){
         $('#username').val($('#username').val().trim());
         $('#password').val($('#password').val().trim());
 
+        console.log($('#username').val());
+        console.log($('#password').val());
 
 
         $.post('/usernameAvailable',{username:$('#username').val()},function(data){
