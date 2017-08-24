@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
         cb(null, './userImages')
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + req.body.username+'.jpg');
+        cb(null, req.body.username+'.jpg');
     }
 })
 
@@ -92,7 +92,7 @@ app.get('/user',function(req,res){
 
         database.feedbacks.findAndCountAll({where:{username:req.user.username}}).then(function(data){
         //profile change
-            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:'/userImages/default-'+req.user.profile_image+'.png',feedbacks:data.rows,totalMessages:data.count});
+            res.render('adminProfile',{name:req.user.name,username:req.user.username,path:'/userImages/'+req.user.profile_image,feedbacks:data.rows,totalMessages:data.count});
 
         })
 
@@ -111,7 +111,7 @@ app.get('/feedback:username',function(req,res){
                 res.render('noUserFound',{logged});
             }
             else{
-                res.render('feedback',{user:user.name,username:user.username,logged,path:'/userImages/default-'+user.profile_image+'.png'})
+                res.render('feedback',{user:user.name,username:user.username,logged,path:'/userImages/'+user.profile_image+'.png'})
             }
         })
 
@@ -169,9 +169,11 @@ app.post('/usernameAvailable',function(req,res){
 app.post('/register',upload.single('avatar'),function(req,res,next){
     if(req.file == undefined){
             req.file={};
-            req.file.path = (Math.round(Math.random()*3)+1);
+            req.file.filename = (Math.round(Math.random()*3)+1)+'.png';
         }
-    database.users.create({username:req.body.username,email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.path}).then(function(){
+        console.log(req.file.path);
+        console.log(req.file);
+    database.users.create({username:req.body.username,email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.filename}).then(function(){
         next();
     })
 

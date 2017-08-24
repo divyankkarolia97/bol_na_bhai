@@ -25,19 +25,19 @@ $(function(){
 
 
         }
-        //
-        // if($('#avatar').val() !== "") {
-        //
-        //     var arr = $('#avatar').val().split('.');
-        //     if (arr[arr.length - 1] != 'jpg' && arr[arr.length - 1] != 'png' && arr[arr.length - 1] != 'jpeg') {
-        //
-        //         $('#alertDiv').css('visibility', "");
-        //         $('#alert').html('upload a valid image')
-        //         return;
-        //
-        //     }
-        //
-        // }
+
+        if($('#avatar').val() !== "") {
+
+            var arr = $('#avatar').val().split('.');
+            if (arr[arr.length - 1] != 'jpg' && arr[arr.length - 1] != 'png' && arr[arr.length - 1] != 'jpeg') {
+
+                $('#alertDiv').css('visibility', "");
+                $('#alert').html('upload a valid image')
+                return;
+
+            }
+
+        }
 
         if($('#name').val() <1){
 

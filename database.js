@@ -8,7 +8,7 @@ const users= sequelize.define('usersdata',{
     name: Sequelize.DataTypes.STRING,
     username: Sequelize.DataTypes.STRING,
     password: Sequelize.DataTypes.STRING,
-    profile_image: Sequelize.DataTypes.STRING(1)
+    profile_image: Sequelize.DataTypes.STRING
 },{
     timestamps:false
 })
