@@ -37,7 +37,25 @@ Allowing the feedback to be entirely anonymous it protects both the sender and t
 * TODO: Add additional technologies
 
 ### Installation
-* TODO: Fill in details of installation and running
+
+* Clone It
+```
+$ git clone https://github.com/divyankkarolia97/bol_na_bhai.git
+$ cd bol_na_bhai
+```
+* Install dependencies
+```
+$ npm install
+```
+* Set environment variables
+```
+$ export DATABASE_URL = postgres://username:password@host:port/dbname
+```
+* Running
+```
+$ npm start
+```
+* Access http://localhost:1234
 
 ### Development
 * TODO: Fill in development specific information
