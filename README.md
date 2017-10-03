@@ -37,7 +37,7 @@ Allowing the feedback to be entirely anonymous it protects both the sender and t
 * TODO: Add additional technologies
 
 ### Installation
-* TODO: Fill in details of isntallation and running
+* TODO: Fill in details of installation and running
 
 ### Development
 * TODO: Fill in development specific information
