@@ -34,7 +34,7 @@ Allowing the feedback to be entirely anonymous it protects both the sender and t
 ### Technologies Used
 * [Heroku](https://www.heroku.com/) - Web App Hosting
 * [Handlebars](http://handlebarsjs.com/) - HTML Templating
-* TODO: Add additional technologies
+* [Express](https://expressjs.com/) - Node.js framework
 
 ### Installation
 
