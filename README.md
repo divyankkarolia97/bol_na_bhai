@@ -35,6 +35,9 @@ Allowing the feedback to be entirely anonymous it protects both the sender and t
 * [Heroku](https://www.heroku.com/) - Web App Hosting
 * [Handlebars](http://handlebarsjs.com/) - HTML Templating
 * [Express](https://expressjs.com/) - Node.js framework
+* [Bootstrap](http://getbootstrap.com/) - Html, css and js library
+* [JQuery](https://jquery.com/) - JS Library
+* [postreSQL](https://www.postgresql.org/) - Open Source Database
 
 ### Installation
 
