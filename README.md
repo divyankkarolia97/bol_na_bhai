@@ -69,7 +69,7 @@ Want to contribute? Great! Here is how to do it:
 2) Code improvement/feature/bug fix
 3) Make sure to run the application and ensure fix is working
 4) Submit a Pull Request from your fork to the master branch
-5) In the Pull Request describe what was fixed/added, what was tested, etc. which will aid in the review of the Pull Request
+5) In the Pull Request describe what was fixed/added, what was tested, etc. which will aid in the review of the pull request
 
 # Contact Us
 * Website: http://bolnabhai.herokuapp.com/aboutus
