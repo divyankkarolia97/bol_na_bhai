@@ -63,7 +63,7 @@ $ npm start
 ### Development
 * TODO: Fill in development specific information
 
-### Contributing
+### Contribution
 Want to contribute? Great! Here is how to do it:
 1) Fork the repository
 2) Code improvement/feature/bug fix
