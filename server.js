@@ -26,6 +26,9 @@ const nodemailer = require('nodemailer');
 //exported database;
 const database = require('./database')
 
+//bcrypt
+const bcrypt = require('bcrypt');
+
 //setting the view engine
 
 app.set('view engine','hbs');
@@ -138,7 +141,7 @@ app.post('/verifyCreds',function(req,res){
         if(data==null){
             res.send('username');
         }
-        else if(data.dataValues.password !== req.body.password){
+        else if(!bcrypt.compareSync(req.body.password, data.dataValues.password)){
             res.send('password');
         }else{
             res.send('success');
@@ -173,9 +176,12 @@ app.post('/register',upload.single('avatar'),function(req,res,next){
         }
         console.log(req.file.path);
         console.log(req.file);
-    database.users.create({username:req.body.username,email:req.body.email,name:req.body.name,password:req.body.password,profile_image:req.file.filename}).then(function(){
-        next();
-    })
+
+        bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+          database.users.create({username:req.body.username,email:req.body.email,name:req.body.name,password:hash,profile_image:req.file.filename}).then(function(){
+            next();
+        })
+      });
 
 },passport.authenticate('local',{successRedirect:'/user',failureRedirect:'/login'}));
 

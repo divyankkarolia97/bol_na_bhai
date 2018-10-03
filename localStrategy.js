@@ -5,6 +5,8 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const users= require('./database').users;
 
+//bcrypt
+const bcrypt = require('bcrypt');
 
 passport.serializeUser(function(user,done){
     console.log('serializing');
@@ -22,14 +24,17 @@ passport.deserializeUser(function(userId,done){
 
 })
 
-
+const validPassword = function(password, hash) {
+  return bcrypt.compareSync(password, hash);
+};
 
 passport.use(new LocalStrategy(function(username,password,done){
 
     //define the local strategy
 
-    users.findAll({where:{username:username,password:password}}).then(function(user){
-        if(user!=0){
+    users.findAll({where:{username:username}}).then(function(user){
+      console.log('USER', user);
+        if(user!=0 && validPassword(password, user[0].dataValues.password)){
             console.log(user[0].dataValues)
             done(null,user[0].dataValues);
         }
